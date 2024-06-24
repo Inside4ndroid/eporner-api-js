@@ -1,8 +1,14 @@
-import { detailsBase } from "./constants.js";
+import { detailsBase } from "./Constants.js";
 
-export async function getVideoUrl(embed) {
+export async function getVideoSources(epornId) {
     try {
-        const response = await fetch(embed);
+
+        const url = detailsBase + epornId;
+
+        const respons = await fetch(url);
+        const data = await respons.json();
+
+        const response = await fetch(data.embed);
         const html = await response.text();
 
         const pattern = /vid\s*=\s*'([^']+)';\s*[\w*\.]+hash\s*=\s*["\']([\da-f]{32})/;
@@ -25,7 +31,10 @@ export async function getVideoUrl(embed) {
 
             const sources = data.sources
 
-            return sources;
+            const json = {
+                sources: sources
+            };
+            return json;
         } else {
             console.error('Pattern not found in HTML');
             return null;
@@ -34,29 +43,4 @@ export async function getVideoUrl(embed) {
         console.error(err);
         return null;
     }
-}
-
-export async function getVideoDetails(epornId) {
-    try {
-        const url = detailsBase + epornId;
-
-        const response = await fetch(url);
-        const data = await response.json();
-
-        const sources = await getVideoUrl(data.embed);
-
-        delete data.url;
-        delete data.embed;
-
-        const json = {
-            details: data,
-            sources: sources
-        };
-        return { json };
-    } catch (err) {
-        console.error(err);
-        return null;
-    }
-
-
 }
