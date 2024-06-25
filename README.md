@@ -1,18 +1,50 @@
-### USAGE
-- base url:
+## Endpoints:
+  ### Get Video Details
+  - `/api/?id={eporner_video_id}&thumbsize{optional_thumbsize}`
+    -  id (Required).
+    -  thumbsize (optional default is medium).
+      - `small` thumbnail size 190x152.
+      - `medium` thumbnail size 427x240.
+      - `big` thumbnail size 640x360.
 
-  https://your-vercel-domain
+  ### Resolve Video Sources
+  - `/api/?resolve={eporner_video_id}`
+    -  id (Required).
 
-- endpoint:
-  - `/api/{eporner_video_id}` : This will return the video details.
-  - `/api/cats` : This will return a list of categories in json format.
-  - `/api/resolve/{eporner_video_id}` : This will return a list of video source links in json format.
+  ### Get Category List (predefined in constants.js)
+  - `/api/cats`
 
-### EXAMPLE VIDEO
-```
-https://your-vercel-domain/v2/hxTTdFVDGrj
-
-```
+  ### Search For Videos
+  - `/api/?query={query}&per_page={per_page}&page={page}&thumbsize={thumbsize}&order={order}&gay={gay}&lq={lq}`
+    - `query` search string (Required).
+      
+    - `per_page` limits the number of results per page. valid range is ( 1, 1000 ). (Optional)
+      
+    - `page` (results page number. valid range is ( 1, 1000000 ) but no more than total_pages received in response). (Optional)
+    
+    -  `thumbsize` (size of thumbnails). (Optional)
+       -  `small` thumbnail size 190x152.
+       - `medium` thumbnail size 427x240.
+       - `big` thumbnail size 640x360.
+    
+    - `order` how results should be sorted. (Optional)
+      - `latest` newest videos first
+      - `longest` longest videos first
+      - `shortest` shortest videos first
+      - `top-rated` top rated videos first
+      - `most-popular` most popular all time videos first
+      - `top-weekly` most popular this week videos first
+      - `top-monthly` most popular this month videos first
+     
+    - `gay` should results include gay content (Optional)
+      - `0` gay content not included
+      - `1` gay content included
+      - `2` only gay content
+        
+    - `lq` should results include content marked as low quality (Optional)
+      - `0` low quality content not included
+      - `1` low quality content included
+      - `2` only low quality
 
 ### Vercel
 Host your own instance of eporner-api-js on Vercel using the button below.
