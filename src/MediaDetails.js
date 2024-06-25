@@ -1,8 +1,14 @@
 import { detailsBase } from "./Constants.js";
 
-export async function getVideoDetails(epornId) {
+let url = 'null';
+
+export async function getVideoDetails(Id, thumbsize) {
     try {
-        const url = detailsBase + epornId;
+        if (thumbsize === 'small' || thumbsize === 'medium' || thumbsize === 'big') {
+            url = detailsBase + Id + '&thumbsize=' + thumbsize;
+        } else {
+            url = detailsBase + Id;
+        }
 
         const response = await fetch(url);
         const data = await response.json();

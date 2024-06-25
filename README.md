@@ -1,11 +1,12 @@
 ### USAGE
 - base url:
+
   https://your-vercel-domain
 
 - endpoint:
-  - `/v2/{eporner_video_id}` : This will return the video details.
-  - `/v2/cats` : This will return a list of categories in json format.
-  - `/v2/resolve/{eporner_video_id}` : This will return a list of video source links in json format.
+  - `/api/{eporner_video_id}` : This will return the video details.
+  - `/api/cats` : This will return a list of categories in json format.
+  - `/api/resolve/{eporner_video_id}` : This will return a list of video source links in json format.
 
 ### EXAMPLE VIDEO
 ```
