@@ -1,4 +1,4 @@
-import { detailsBase } from "./Constants.js";
+import { detailsBase } from "./constants.js";
 
 export async function getVideoSources(epornId) {
     try {

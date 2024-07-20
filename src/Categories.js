@@ -1,4 +1,4 @@
-import { categories } from "./Constants.js";
+import { categories } from "./constants";
 
 export async function getCategories() {
     try {

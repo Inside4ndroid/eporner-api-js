@@ -1,6 +1,6 @@
 import express from "express";
 import { getVideoDetails } from "./src/MediaDetails.js";
-import { port } from "./src/Constants.js";
+import { port } from "./src/constants.js";
 import { getCategories } from "./src/Categories.js";
 import { getVideoSources } from "./src/Resolver.js";
 import { getSearchResults } from "./src/Search.js";
