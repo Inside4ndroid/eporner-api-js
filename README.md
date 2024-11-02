@@ -14,11 +14,11 @@
   ### Get Details and Sources in same response
   - `/api/full?id={eporner_video_id}&thumbsize{optional_thumbsize}`
     -  id (Required).
-      -  thumbsize (optional default is medium).
-        - `small` thumbnail size 190x152.
-        - `medium` thumbnail size 427x240.
-        - `big` thumbnail size 640x360.
-        
+    -  thumbsize (optional default is medium).
+      - `small` thumbnail size 190x152.
+      - `medium` thumbnail size 427x240.
+      - `big` thumbnail size 640x360.
+
   ### Get Category List (predefined in constants.js)
   - `/api/cats`
 
@@ -31,7 +31,7 @@
     - `page` (results page number. valid range is ( 1, 1000000 ) but no more than total_pages received in response). (Optional)
     
     -  `thumbsize` (size of thumbnails). (Optional)
-       -  `small` thumbnail size 190x152.
+       - `small` thumbnail size 190x152.
        - `medium` thumbnail size 427x240.
        - `big` thumbnail size 640x360.
     
