@@ -11,18 +11,16 @@ app.get('/', (req, res) => {
     res.status(200).json({
         intro: "Welcome to the unofficial eporner provider: check the provider website @ https://www.eporner.com/ ",
         routes: {
-            video_details: "/api/:epornerid",
+            video_details: "/api/?id=:epornerid",
             categoty_list: "/api/cats",
-            video_source_links: "/api/resolve/:epornerid"
+            video_source_links: "/api/resolve/?resolve=:epornerid",
+            video_details_and_sources: "/api/full/?id=:epornerid"
         },
         author: "This api is developed and created by Inside4ndroid"
     });
 });
 
 app.get('/api/', async (req, res) => {
-
-    // http://localhost:3000/api/?id=IsabYDAiqXa&thumbsize=big
-    // http://localhost:3000/api/?resolve=IsabYDAiqXa
 
     const id = req.query.id || null;
     const thumbsize = req.query.thumbsize || 'medium';
@@ -70,6 +68,29 @@ app.get('/api/', async (req, res) => {
             res.status(200).json([getResults]);
         }
     }
+});
+
+app.get('/api/full/', async (req, res) => {
+    const id = req.query.id || null;
+    const thumbsize = req.query.thumbsize || 'medium';
+
+    const getDetails = await getVideoDetails(id, thumbsize);
+    const getSources = await getVideoSources(id);
+
+    if (getDetails === null || getSources === null) {
+        res.status(404).send({
+            status: 404,
+            return: "Oops reached rate limit of this api"
+        });
+    } else {
+        const mergedResponse = {
+            details: getDetails,
+            sources: getSources
+        };
+        res.status(200).json(mergedResponse);
+    }
+
+
 });
 
 app.get('/api/cats', async (req, res) => {
