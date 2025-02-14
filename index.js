@@ -11,68 +11,17 @@ app.get('/', (req, res) => {
     res.status(200).json({
         intro: "Welcome to the unofficial eporner provider: check the provider website @ https://www.eporner.com/ ",
         routes: {
-            video_details: "/api/?id=:epornerid",
             categoty_list: "/api/cats",
-            video_source_links: "/api/resolve/?resolve=:epornerid",
-            video_details_and_sources: "/api/full/?id=:epornerid"
+            video_details_and_sources: "/api/full/?id=:epornerid",
+            search: "/search/:query"
         },
         author: "This api is developed and created by Inside4ndroid"
     });
 });
 
-app.get('/api/', async (req, res) => {
-
-    const id = req.query.id || null;
-    const thumbsize = req.query.thumbsize || 'medium';
-    const resolve = req.query.resolve || null;
-
-    const query = req.query.query || null;
-    const per_page = req.query.per_page || '30';
-    const page = req.query.page || '1';
-    const order = req.query.order || 'latest';
-    const gay = req.query.gay || '0';
-    const lq = req.query.lq || '1';
-
-    if (id) {
-        const getDetails = await getVideoDetails(id, thumbsize);
-        if (getDetails === null) {
-            res.status(404).send({
-                status: 404,
-                return: "Oops reached rate limit of this api"
-            });
-        } else {
-            res.status(200).json([getDetails]);
-        }
-    }
-
-    if (resolve) {
-        const getSources = await getVideoSources(resolve);
-        if (getSources === null) {
-            res.status(404).send({
-                status: 404,
-                return: "Oops reached rate limit of this api"
-            });
-        } else {
-            res.status(200).json([getSources]);
-        }
-    }
-
-    if(query) {
-        const getResults = await getSearchResults(query, per_page, page, thumbsize, order, gay, lq);
-        if(getResults === null) {
-            res.status(404).send({
-                status: 404,
-                return: "Oops reached rate limit of this api"
-            });
-        } else {
-            res.status(200).json([getResults]);
-        }
-    }
-});
-
-app.get('/api/full/', async (req, res) => {
-    const id = req.query.id || null;
-    const thumbsize = req.query.thumbsize || 'medium';
+app.get('/details/:id', async (req, res) => {
+    const id = req.params.id || null;
+    const thumbsize = 'medium';
 
     const getDetails = await getVideoDetails(id, thumbsize);
     const getSources = await getVideoSources(id);
@@ -83,17 +32,25 @@ app.get('/api/full/', async (req, res) => {
             return: "Oops reached rate limit of this api"
         });
     } else {
-        const mergedResponse = {
-            details: getDetails,
-            sources: getSources
-        };
-        res.status(200).json(mergedResponse);
+        getDetails.json.details.sources = getSources.sources;
+        res.status(200).json(getDetails);
     }
-
-
 });
 
-app.get('/api/cats', async (req, res) => {
+app.get('/search/:query', async (req, res) => {
+    const query = req.params.query
+    const getResults = await getSearchResults(query, '30', '1', 'medium', 'latest', '0', '1');
+        if(getResults === null) {
+            res.status(404).send({
+                status: 404,
+                return: "Oops reached rate limit of this api"
+            });
+        } else {
+            res.status(200).json([getResults]);
+        }
+});
+
+app.get('/cats/', async (req, res) => {
     const getCats = await getCategories();
     if (getCats === null) {
         res.status(404).send({
